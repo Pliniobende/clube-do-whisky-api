@@ -4,12 +4,8 @@
   "description": "Projeto Integrador - Digital House - Grupo 1",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
-    "test": "echo \"Error: no test specified\" && exit 1"
-=======
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js"
->>>>>>> 4188c4b5f5037ce2bc3656740e9863f351da03e0
   },
   "repository": {
     "type": "git",
