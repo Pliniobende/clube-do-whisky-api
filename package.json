@@ -1,0 +1,36 @@
+{
+  "name": "clube-do-whisky-api",
+  "version": "1.0.0",
+  "description": "Projeto Integrador - Digital House - Grupo 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pliniobende/clube-do-whisky-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pliniobende/clube-do-whisky-api/issues"
+  },
+  "homepage": "https://github.com/Pliniobende/clube-do-whisky-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "joi": "^17.4.2",
+    "multer": "^1.4.3",
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12",
+    "sequelize-cli": "^6.2.0"
+  }
+}
