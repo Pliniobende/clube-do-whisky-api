@@ -1,4 +1,5 @@
 const { Users } = require('../models')
+const bcrypt = require('bcrypt');
 
 const userServices = {
     get: async (id, res) => {
@@ -17,6 +18,31 @@ const userServices = {
                                 updatedAt });
         } else {
             res.status(404).json('Not Found');
+        }
+    }, 
+    put: async (req, res) => {
+        let { name, email, password, mobile, newsLetter } = req.body;
+
+        let senha = bcrypt.hashSync(password, 10);
+
+        let checkEmail = await Users.findOne({ where: { email }})
+
+        if (checkEmail) {
+            res.status(404).json("Usuário/e-mail já cadastro!");
+        } else {
+            try {
+                await Users.create({
+                    name, 
+                    email, 
+                    password: senha,
+                    mobile,
+                    newsLetter
+                })
+
+                res.status(201).json('Registrado acrescentado com sucesso!!!')
+            } catch(error) {
+                res.status(500).json(`Error: ${error}`);
+            }
         }
     }
 }
