@@ -12,6 +12,13 @@ const userController = {
         } catch(error) {
             res.status(500).json(error);
         }
+    }, 
+    post: (req, res) => {
+        try {
+
+        } catch(error) {
+            res.status(500).json(error);
+        }
     }
 }
 
