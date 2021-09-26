@@ -44,6 +44,25 @@ const userServices = {
                 res.status(500).json(`Error: ${error}`);
             }
         }
+    }, 
+    login: async (datas, session,res) => {
+        let { email, password } = datas;
+
+        let user = await Users.findOne({ where: { email }});
+
+        if (user) {
+            if (bcrypt.compareSync(password, user.password)) {
+                session.user = {
+                    name: user.name,
+                    email: user.email
+                }
+                res.status(202).json('Login realizado com sucesso!');
+            } else {
+                res.status(403).json('Senha Inválida');
+            }
+        } else {
+            res.status(404).json('Usuário não encontrado');
+        }
     }
 }
 

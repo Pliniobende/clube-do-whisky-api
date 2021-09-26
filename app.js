@@ -1,10 +1,17 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const session = require('express-session');
 require('dotenv').config();
 
 const userRoutes = require('./routes/user.routes');
 const prospectsRoutes = require('./routes/prospects.routes');
+
+app.use(session({
+    secret: 'wisky',
+    resave: true,
+    saveUninitialized: true
+}));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
