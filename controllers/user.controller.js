@@ -15,9 +15,7 @@ const userController = {
     }, 
     post: async (req, res) => {
         try {
-            let { name, email, password, mobile, newsLetter } = req.body;
-
-            let datas = { name, email, password, mobile, newsLetter }
+            let datas = req.body;
 
             await userServices.put(datas, res)
         } catch(error) {

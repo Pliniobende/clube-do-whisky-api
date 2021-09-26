@@ -1,4 +1,4 @@
-const { Users } = require('../models')
+const { Users } = require('../models');
 const bcrypt = require('bcrypt');
 
 const userServices = {
@@ -37,9 +37,9 @@ const userServices = {
                     password: senha,
                     mobile,
                     newsLetter
-                })
+                });
 
-                res.status(201).json('Usuario cadastrado com sucesso!!!')
+                res.status(201).json('Usuario cadastrado com sucesso!!!');
             } catch(error) {
                 res.status(500).json(`Error: ${error}`);
             }

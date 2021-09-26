@@ -8,6 +8,14 @@ const usersSchema = Joi.object().keys({
     newsLetter: Joi.any()
 });
 
+const prospectsSchema = Joi.object().keys({
+    name: Joi.string().min(5).required(),
+    email: Joi.string().email().required(),
+    message: Joi.string().min(10).required(),
+    replied: Joi.any()
+});
+
 module.exports = {
-    usersSchema
+    usersSchema,
+    prospectsSchema
 }
