@@ -20,8 +20,8 @@ const userServices = {
             res.status(404).json('Not Found');
         }
     }, 
-    put: async (req, res) => {
-        let { name, email, password, mobile, newsLetter } = req.body;
+    put: async (datas, res) => {
+        let { name, email, password, mobile, newsLetter } = datas;
 
         let senha = bcrypt.hashSync(password, 10);
 
@@ -39,7 +39,7 @@ const userServices = {
                     newsLetter
                 })
 
-                res.status(201).json('Registrado acrescentado com sucesso!!!')
+                res.status(201).json('Usuario cadastrado com sucesso!!!')
             } catch(error) {
                 res.status(500).json(`Error: ${error}`);
             }

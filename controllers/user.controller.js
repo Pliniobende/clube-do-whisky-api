@@ -13,9 +13,13 @@ const userController = {
             res.status(500).json(error);
         }
     }, 
-    post: (req, res) => {
+    post: async (req, res) => {
         try {
+            let { name, email, password, mobile, newsLetter } = req.body;
 
+            let datas = { name, email, password, mobile, newsLetter }
+
+            await userServices.put(datas, res)
         } catch(error) {
             res.status(500).json(error);
         }
