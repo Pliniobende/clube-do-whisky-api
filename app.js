@@ -8,7 +8,7 @@ const userRoutes = require('./routes/user.routes');
 const prospectsRoutes = require('./routes/prospects.routes');
 
 app.use(session({
-    secret: 'wisky',
+    secret: process.env.SECRET_WORD,
     resave: true,
     saveUninitialized: true
 }));
