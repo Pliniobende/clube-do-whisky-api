@@ -1,7 +1,10 @@
 const { Prospects } = require('../models');
 
 const prospectsServices = {
-    post: async (datas, res) => {
+    post: async (datas) => {
+        let status = null
+        let error = null;
+        let data = {};
         let { name, email, message, replied } = datas;
 
         try {
@@ -12,10 +15,13 @@ const prospectsServices = {
                 replied
             });
 
-            res.status(201).json('Prospect cadastrado com sucesso!!!');
-        } catch(error) {
-            res.status(500).json(error);
+            status = 201;
+        } catch(e) {
+            status = 500;
+            error = e;
         }
+
+        return { data, status, error }
     }
 }
 

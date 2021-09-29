@@ -7,9 +7,11 @@ const prospectsController = {
         try {
             let datas = req.body;
 
-            await prospectsServices.post(datas, res);
-        } catch(error) {
-            res.status(500).json(error);
+            const { data, status, error } = await prospectsServices.post(datas, res);
+            
+            error ? res.status(status).json(error) : res.status(status).json(data);
+        } catch(e) {
+            res.status(500).json(e);
         }
     },
     put: (req, res) => res.status(401).json('Unauthorized route'),

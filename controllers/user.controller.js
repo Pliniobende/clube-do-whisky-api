@@ -6,18 +6,22 @@ const userController = {
         try {
             const {id} = req.params;
 
-            await userServices.get(id, res);
-        } catch(error) {
-            res.status(500).json(error);
+            const { data, status, error } = await userServices.get(id);
+
+            error ? res.status(status).json(error) : res.status(status).json(data);
+        } catch(e) {
+            res.status(500).json(e);
         }
     }, 
     post: async (req, res) => {
         try {
             let datas = req.body;
 
-            await userServices.put(datas, res)
-        } catch(error) {
-            res.status(500).json(error);
+            const { data, status, error } = await userServices.post(datas);
+
+            error ? res.status(status).json(error) : res.status(status).json(data);
+        } catch(e) {
+            res.status(500).json(e);
         }
     },
     put: (req, res) => res.status(401).json('Unauthorized route'),
@@ -26,9 +30,11 @@ const userController = {
         try {
             let datas = req.body;
 
-            await userServices.login(datas, req.session ,res);
-        } catch (error) {
-            res.status(500).json(error);
+            const { data, status, error } = await userServices.login(datas, req.session ,res);
+
+            error ? res.status(status).json(error) : res.status(status).json(data);
+        } catch (e) {
+            res.status(500).json(e);
         }
     }
 }
