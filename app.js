@@ -22,8 +22,8 @@ app.use(cors());
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/prospects', prospectsRoutes);
 
-app.use('/categories', categoriesRoutes);
+app.use('/api/v1/categories', categoriesRoutes);
 
-app.use('/', brandsRoutes);
+app.use('/api/v1/brand', brandsRoutes);
 
 app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`))
