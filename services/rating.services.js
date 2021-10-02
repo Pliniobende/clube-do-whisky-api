@@ -10,7 +10,7 @@ const reviewsServices = {
                 description
             });
 
-            res.status(201).json(Reviews);
+            res.status(201).json("Avaliação enviada com sucesso!");
         } catch(error) {
             res.status(500).json(error);
         }

@@ -1,5 +1,6 @@
 const { Brands } = require('../models');
 const { Reviews } = require('../models');
+const brandsServices = require('../services/rating.services');
 
 const brandsController = {
     brand: async (req, res) => {
@@ -40,7 +41,7 @@ const brandsController = {
             try {
                 let datas = req.body;
     
-                await marcasServices.post(datas, res);
+                await brandsServices.post(datas, res);
             } catch(error) {
                 res.status(500).json(error);
             }
