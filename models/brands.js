@@ -14,12 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Brands.init({
-    idBrand:{
-      type: DataTypes.INTEGER,
-      primaryKey:true,
-      autoIncrement:true
-    },
-    description: {
+
+      description: {
       allowNull: false,
       type: DataTypes.STRING
     },
