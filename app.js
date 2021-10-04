@@ -24,6 +24,6 @@ app.use('/api/v1/prospects', prospectsRoutes);
 
 app.use('/categories', categoriesRoutes);
 
-app.use('/', brandsRoutes);
+
 
 app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`))
