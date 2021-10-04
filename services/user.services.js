@@ -2,25 +2,38 @@ const { Users } = require('../models');
 const bcrypt = require('bcrypt');
 
 const userServices = {
-    get: async (id, res) => {
-
+    get: async (id) => {
+        let status = null
+        let error = null;
+        let data = {};
         let users = await Users.findOne({
             where: { id }
         })
         
-        if (users) {
-            let { name, email, mobile, newsLetter, createdAt, updatedAt} = users;
-            res.status(200).json({ name, 
-                                email, 
-                                mobile, 
-                                newsLetter, 
-                                createdAt, 
-                                updatedAt });
-        } else {
-            res.status(404).json('Not Found');
+        try {
+            if (users) {
+                status = 200;
+                let { name, email, mobile, newsLetter, createdAt, updatedAt} = users;
+                data = { name, 
+                            email, 
+                            mobile, 
+                            newsLetter, 
+                            createdAt, 
+                            updatedAt };
+            } else {
+                status = 404
+            }
+        } catch (e) {
+            status = 500;
+            error = e;
         }
+
+        return { data, status, error }
     }, 
-    put: async (datas, res) => {
+    post: async (datas) => {
+        let status = null
+        let error = null;
+        let data = {};
         let { name, email, password, mobile, newsLetter } = datas;
 
         let senha = bcrypt.hashSync(password, 10);
@@ -28,7 +41,8 @@ const userServices = {
         let checkEmail = await Users.findOne({ where: { email }})
 
         if (checkEmail) {
-            res.status(404).json("Usuário/e-mail já cadastro!");
+            status = 400;
+            error = "Usuário/E-mail já cadastrado";
         } else {
             try {
                 await Users.create({
@@ -38,31 +52,44 @@ const userServices = {
                     mobile,
                     newsLetter
                 });
-
-                res.status(201).json('Usuario cadastrado com sucesso!!!');
-            } catch(error) {
-                res.status(500).json(`Error: ${error}`);
+                status = 201;
+            } catch(e) {
+                status = 500;
+                error = e;
             }
         }
+
+        return { data, status, error }
     }, 
-    login: async (datas, session,res) => {
+    login: async (datas, session) => {
+        let status = null
+        let error = null;
+        let data = {};
         let { email, password } = datas;
 
         let user = await Users.findOne({ where: { email }});
 
-        if (user) {
-            if (bcrypt.compareSync(password, user.password)) {
-                session.user = {
-                    name: user.name,
-                    email: user.email
+        try {
+            if (user) {
+                if (bcrypt.compareSync(password, user.password)) {
+                    session.user = {
+                        name: user.name,
+                        email: user.email
+                    }
+                    status = 202;
+                } else {
+                    status = 404;
+                    error = "Senha Inválida";
                 }
-                res.status(202).json('Login realizado com sucesso!');
             } else {
-                res.status(403).json('Senha Inválida');
+                status = 404;
             }
-        } else {
-            res.status(404).json('Usuário não encontrado');
+        } catch(e) {
+            status = 500;
+            error = e;
         }
+
+        return { data, status, error }
     }
 }
 

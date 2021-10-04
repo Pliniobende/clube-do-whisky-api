@@ -6,8 +6,6 @@ const dotenv = require('dotenv').config();
 
 const userRoutes = require('./routes/user.routes');
 const prospectsRoutes = require('./routes/prospects.routes');
-const categoriesRoutes = require('./routes/categories.routes')
-const brandsRoutes = require('./routes/brands.routes')
 
 app.use(session({
     secret: process.env.SECRET_WORD,
