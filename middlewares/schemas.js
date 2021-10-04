@@ -20,6 +20,8 @@ const loginSchema = Joi.object().keys({
     password: Joi.string().min(4).required()
 });
 
+
+
 module.exports = {
     usersSchema,
     prospectsSchema,
