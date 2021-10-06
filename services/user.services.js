@@ -1,5 +1,7 @@
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
+var config = require("../middlewares/config");
 
 const userServices = {
   get: async (id) => {
@@ -47,6 +49,7 @@ const userServices = {
           mobile,
           newsLetter,
         });
+
         status = 201;
       } catch (e) {
         status = 500;
@@ -71,6 +74,12 @@ const userServices = {
             name: user.name,
             email: user.email,
           };
+
+          var token = jwt.sign({ id: user.id }, config.secret, {
+            expiresIn: 3600,
+          });
+
+          data = { auth: true, token };
           status = 202;
         } else {
           status = 404;
