@@ -1,69 +1,100 @@
-const { Users } = require('../models');
-const bcrypt = require('bcrypt');
+const { Users } = require("../models");
+const bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
+var config = require("../middlewares/config");
 
 const userServices = {
-    get: async (id, res) => {
+  get: async (id) => {
+    let status = null;
+    let error = null;
+    let data = {};
+    let users = await Users.findOne({
+      where: { id },
+    });
 
-        let users = await Users.findOne({
-            where: { id }
-        })
-        
-        if (users) {
-            let { name, email, mobile, newsLetter, createdAt, updatedAt} = users;
-            res.status(200).json({ name, 
-                                email, 
-                                mobile, 
-                                newsLetter, 
-                                createdAt, 
-                                updatedAt });
-        } else {
-            res.status(404).json('Not Found');
-        }
-    }, 
-    put: async (datas, res) => {
-        let { name, email, password, mobile, newsLetter } = datas;
-
-        let senha = bcrypt.hashSync(password, 10);
-
-        let checkEmail = await Users.findOne({ where: { email }})
-
-        if (checkEmail) {
-            res.status(404).json("Usuário/e-mail já cadastro!");
-        } else {
-            try {
-                await Users.create({
-                    name, 
-                    email, 
-                    password: senha,
-                    mobile,
-                    newsLetter
-                });
-
-                res.status(201).json('Usuario cadastrado com sucesso!!!');
-            } catch(error) {
-                res.status(500).json(`Error: ${error}`);
-            }
-        }
-    }, 
-    login: async (datas, session,res) => {
-        let { email, password } = datas;
-
-        let user = await Users.findOne({ where: { email }});
-
-        if (user) {
-            if (bcrypt.compareSync(password, user.password)) {
-                session.user = {
-                    name: user.name,
-                    email: user.email
-                }
-                res.status(202).json('Login realizado com sucesso!');
-            } else {
-                res.status(403).json('Senha Inválida');
-            }
-        } else {
-            res.status(404).json('Usuário não encontrado');
-        }
+    try {
+      if (users) {
+        status = 200;
+        let { name, email, mobile, newsLetter, createdAt, updatedAt } = users;
+        data = { name, email, mobile, newsLetter, createdAt, updatedAt };
+      } else {
+        status = 404;
+      }
+    } catch (e) {
+      status = 500;
+      error = e;
     }
-}
+
+    return { data, status, error };
+  },
+  post: async (datas) => {
+    let status = null;
+    let error = null;
+    let data = {};
+    let { name, email, password, mobile, newsLetter } = datas;
+
+    let senha = bcrypt.hashSync(password, 10);
+
+    let checkEmail = await Users.findOne({ where: { email } });
+
+    if (checkEmail) {
+      status = 400;
+      error = "Usuário/E-mail já cadastrado";
+    } else {
+      try {
+        await Users.create({
+          name,
+          email,
+          password: senha,
+          mobile,
+          newsLetter,
+        });
+
+        status = 201;
+      } catch (e) {
+        status = 500;
+        error = e;
+      }
+    }
+
+    return { data, status, error };
+  },
+  login: async (datas, session) => {
+    let status = null;
+    let error = null;
+    let data = {};
+    let { email, password } = datas;
+
+    let user = await Users.findOne({ where: { email } });
+
+    try {
+      if (user) {
+        if (bcrypt.compareSync(password, user.password)) {
+          session.user = {
+            name: user.name,
+            email: user.email,
+          };
+
+          var token = jwt.sign({ id: user.id }, config.secret, {
+            expiresIn: 3600,
+          });
+
+          data = { auth: true, token };
+          status = 202;
+        } else {
+          status = 404;
+          error = "Senha Inválida";
+        }
+      } else {
+        status = 404;
+      }
+    } catch (e) {
+      status = 500;
+      error = e;
+    }
+
+    return { data, status, error };
+  },
+};
 
 module.exports = userServices;

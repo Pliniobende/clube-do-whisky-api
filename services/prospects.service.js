@@ -1,22 +1,28 @@
-const { Prospects } = require('../models');
+const { Prospects } = require("../models");
 
 const prospectsServices = {
-    post: async (datas, res) => {
-        let { name, email, message, replied } = datas;
+  post: async (datas) => {
+    let status = null;
+    let error = null;
+    let data = {};
+    let { name, email, message, replied } = datas;
 
-        try {
-            await Prospects.create({
-                name, 
-                email, 
-                message, 
-                replied
-            });
+    try {
+      await Prospects.create({
+        name,
+        email,
+        message,
+        replied,
+      });
 
-            res.status(201).json('Prospect cadastrado com sucesso!!!');
-        } catch(error) {
-            res.status(500).json(error);
-        }
+      status = 201;
+    } catch (e) {
+      status = 500;
+      error = e;
     }
-}
+
+    return { data, status, error };
+  },
+};
 
 module.exports = prospectsServices;
