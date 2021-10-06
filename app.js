@@ -6,12 +6,20 @@ const dotenv = require('dotenv').config();
 
 const userRoutes = require('./routes/user.routes');
 const prospectsRoutes = require('./routes/prospects.routes');
+const categoriesRoutes = require('./routes/categories.routes');
+// const brandsRoutes = require('./routes/brands.routes');
+
 
 app.use(session({
-    secret: process.env.SECRET_WORD,
+    secret:"secret",
     resave: true,
     saveUninitialized: true
 }));
+// app.use( session({
+//     secret: process.env.SECRET_WORD,
+//     resave: true,
+//     saveUninitialized: true
+// }));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -20,7 +28,16 @@ app.use(cors());
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/prospects', prospectsRoutes);
 
-app.use('/categories', categoriesRoutes);
+// app.use('/api/v1/brand', brandsRoutes);
+app.get('/api/v1/brand', (req, res) => {
+    res.send("Oi")
+});
+
+app.use('/api/v1/categories', categoriesRoutes);
+// app.get('/api/v1/categories', (req, res) => {
+//     console.log("Oi")
+//     res.send("Oi")
+// });
 
 
 
