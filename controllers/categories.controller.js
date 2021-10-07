@@ -1,5 +1,5 @@
 const categoriesServices = require('../services/categories.services');
-const brandsServices = require('../services/bands.services');
+const brandsServices = require('../services/brands.services');
 
 const categoriesController = {
 
