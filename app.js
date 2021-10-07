@@ -6,6 +6,8 @@ require("dotenv").config();
 
 const userRoutes = require("./routes/user.routes");
 const prospectsRoutes = require("./routes/prospects.routes");
+const brandsRoutes = require("./routes/brands.routes");
+const categoriesRoutes = require("./routes/categories.routes");
 
 app.use(
   session({
@@ -21,6 +23,9 @@ app.use(cors());
 
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/prospects", prospectsRoutes);
+
+app.use("/api/v1/brands", brandsRoutes);
+app.use("/api/v1/categories", categoriesRoutes);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on port ${process.env.PORT}`)
