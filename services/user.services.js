@@ -1,7 +1,7 @@
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-var config = require("../middlewares/config");
+const { secret } = require("../middlewares/config");
 
 const userServices = {
   get: async (id) => {
@@ -75,7 +75,7 @@ const userServices = {
             email: user.email,
           };
 
-          var token = jwt.sign({ id: user.id }, config.secret, {
+          var token = jwt.sign({ id: user.id }, secret, {
             expiresIn: 3600,
           });
 
