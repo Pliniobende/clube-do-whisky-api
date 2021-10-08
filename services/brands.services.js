@@ -2,7 +2,7 @@ const { Categories } = require("../models");
 const { Brands } = require("../models");
 
 const brandsServices = {
-  get: async (id) => {
+  getAll: async (id) => {
     let status = null;
     let error = null;
     let data = {};
@@ -28,6 +28,34 @@ const brandsServices = {
     } catch (e) {
       status = 500;
       error = e;
+    }
+
+    return { data, status, error };
+  },
+  getOne: async (id) => {
+    let data = {};
+    let status = null;
+    let error = null;
+    let brand = Brands.findOne({
+      where: { id },
+    });
+
+    try {
+      if (brand) {
+        status = 200;
+        let { image, description } = brand;
+        data = {
+          image,
+          description,
+        };
+      } else {
+        status = 404;
+        res.send("Brand não encontrada");
+      }
+    } catch (e) {
+      status = 500;
+      error = e;
+      console.log(error);
     }
 
     return { data, status, error };
