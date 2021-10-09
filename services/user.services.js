@@ -8,15 +8,18 @@ const userServices = {
     let status = null;
     let error = null;
     let data = {};
-    let users = await Users.findOne({
-      where: { id },
-    });
+    let users = await Users.findOne({ where: { id } });
 
     try {
       if (users) {
         status = 200;
-        let { name, email, mobile, newsLetter, createdAt, updatedAt } = users;
-        data = { name, email, mobile, newsLetter, createdAt, updatedAt };
+        data = {
+          id: users.id,
+          name: users.name,
+          email: users.name,
+          mobile: users.mobile,
+          newsLetter: users.newsLetter,
+        };
       } else {
         status = 404;
       }
@@ -42,7 +45,7 @@ const userServices = {
       error = "Usuário/E-mail já cadastrado";
     } else {
       try {
-        await Users.create({
+        const response = await Users.create({
           name,
           email,
           password: senha,
@@ -50,6 +53,14 @@ const userServices = {
           newsLetter,
         });
 
+        var token = jwt.sign({ id: response.id }, secret, { expiresIn: 3600 });
+
+        data = {
+          auth: true,
+          token,
+          name: response.name,
+          email: response.email,
+        };
         status = 201;
       } catch (e) {
         status = 500;
