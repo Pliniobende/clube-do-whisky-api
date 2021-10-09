@@ -3,3 +3,6 @@ node_modules/
 
 # Arquivo dotenv
 .env
+
+# Arquivo dotenv
+.json
