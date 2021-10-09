@@ -19,13 +19,12 @@ const categoriesController = {
       const { id } = req.params;
 
       const { data, status, error } = await brandsServices.getAll(id);
-  
+
       error ? res.status(status).json(error) : res.status(status).json(data);
     } catch (e) {
       res.status(500).json(e);
     }
   },
 };
-
 
 module.exports = categoriesController;
