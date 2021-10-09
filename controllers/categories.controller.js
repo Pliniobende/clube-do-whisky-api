@@ -1,38 +1,30 @@
+const categoriesServices = require("../services/categories.services");
+const brandsServices = require("../services/brands.services");
+
 const categoriesController = {
+  categoria: async (req, res) => {
+    try {
+      const { id } = req.params;
 
-    categoria: async (req, res) => {
-        let { id } = req.params;
-        let dados = await Categories.findOne({
-            where: {
-                id
-            }
-        })
-        if (dados){
-            let { name, description, detail} = dados;
-            res.send({
-            name,
-            description,
-            detail
-        });
-        }else{
-            res.status(404).send('Nenhum objeto encontrado');
-        }
-        let dados2 = await Posts.findOne({
-            where: {
-                id
-            }
-        })
-        if (dados2){
-            let { image, description} = dados;
-            res.send({
-            image,
-            description
-        });
-        }else{
-            res.status(404).send('Nenhum objeto encontrado');
-        }
+      const { data, status, error } = await categoriesServices.get(id);
+
+      error ? res.status(status).json(error) : res.status(status).json(data);
+    } catch (e) {
+      res.status(500).json(e);
     }
-};
+  },
 
+  marca: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const { data, status, error } = await brandsServices.getAll(id);
+
+      error ? res.status(status).json(error) : res.status(status).json(data);
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  },
+};
 
 module.exports = categoriesController;
