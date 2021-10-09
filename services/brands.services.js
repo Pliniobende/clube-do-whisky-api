@@ -7,12 +7,10 @@ const brandsServices = {
     let error = null;
     let data = {};
     let brands = await Brands.findAll({
-      include: {
-        model: Categories[id],
-        as: "Categories",
-        required: true,
-      },
-    });
+      where: {categoriesId: id}
+    }
+    );
+    consol.log(brands)
 
     try {
       if (brands) {

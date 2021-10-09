@@ -35,6 +35,19 @@ const brandsController = {
       res.status(500).json(error);
     }
   },
+
+  getAll: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const { data, status, error } = await brandsServices.getAll(id);
+ 
+
+      error ? res.status(status).json(error) : res.status(status).json(data);
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  }
 };
 
 module.exports = brandsController;

@@ -9,9 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Brands.belongsTo(models.Categories, {
+        as: 'Categories',
         foreignKey: "categoriesId",
-        as: "categories",
-        required: true,
       });
     }
   }
@@ -24,6 +23,16 @@ module.exports = (sequelize, DataTypes) => {
       image: {
         allowNull: false,
         type: DataTypes.STRING,
+      },
+      categoriesId: {
+        type: DataTypes.INTEGER,
+        reference: {
+          model: {
+            tableName: 'categories'
+          },
+          key: 'id'
+        },
+        allowNull: false
       },
     },
     {

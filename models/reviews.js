@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Reviews.init(
     {
-      idReview: {
+      id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
