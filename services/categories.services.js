@@ -1,11 +1,11 @@
 const { Categories } = require("../models");
 
 const categoriesServices = {
-  get: async (id) => {
+  getOne: async (id) => {
     let data = {};
     let status = null;
     let error = null;
-    let categorie = Categories.findOne({
+    let categorie = await Categories.findOne({
       where: { id },
     });
 

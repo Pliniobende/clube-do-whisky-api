@@ -6,8 +6,9 @@ const prospectsServices = {
     let error = null;
     let data = {};
     let { name, email, message, replied } = datas;
-
+    
     try {
+
       await Prospects.create({
         name,
         email,
@@ -20,7 +21,7 @@ const prospectsServices = {
       status = 500;
       error = e;
     }
-
+  
     return { data, status, error };
   },
 };

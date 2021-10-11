@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "categories",
         required: true,
       });
+
     }
   }
   Brands.init(

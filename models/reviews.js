@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
       }),
         Reviews.belongsTo(models.Brands, {
-          foreignKey: "brandId",
+          foreignKey: "brandsId",
           as: "brands",
           required: true,
         });
