@@ -7,7 +7,7 @@ const userController = {
       const { id } = req.params;
 
       const { data, status, error } = await userServices.get(id);
-
+      
       error ? res.status(status).json(error) : res.status(status).json(data);
     } catch (e) {
       res.status(500).json(e);

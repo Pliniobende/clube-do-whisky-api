@@ -52,22 +52,21 @@ const reviewsServices = {
     let status = null;
     let error = null;
     let data = {};
-    let review = await Reviews.findAll({
-     subQuery: false,
+    let review = await Reviews.findOne({
+      where: {brandid:2},
       attributes: {
         include:[
-          [sequelize.fn('AVG', sequelize.col('rating')), 'rating']
+          [sequelize.fn('AVG', sequelize.col('rating')), 'avgRating'],
         ],
-        where: {brandId:1}
+          exclude: ['description','createdAt','updatedAt','userId','id','rating'],
       }
     });
-
-    console.log(review.length)
     try {
       if (review && review.length !=0) {
         status = 200;
         /*let { rating, description, userId } = review;*/
         data = review;
+         console.log(data)
       } else {
         status = 404;
         res.send("Nenhuma avaliação encontrada");
@@ -76,9 +75,34 @@ const reviewsServices = {
       status = 500;
       error = e;
     }
-
+  
     return { data, status, error };
   },
+
+  
+    getAllRatings: async (id) => {
+      let status = null;
+      let error = null;
+      let data = {};
+      let review = await Reviews.findAll({
+  
+        where: { brandId: id }
+      });
+      try {
+        if (review && review.length !=0) {
+
+          data = review;
+        } else {
+          status = 404;
+          res.send("Nenhuma avaliação encontrada");
+        }
+      } catch (e) {
+        status = 500;
+        error = e;
+      }
+  
+      return { data, status, error };
+    },
 };
 
 module.exports = reviewsServices;

@@ -16,7 +16,7 @@ const userServices = {
         data = {
           id: users.id,
           name: users.name,
-          email: users.name,
+          email: users.email,
           mobile: users.mobile,
           newsLetter: users.newsLetter,
         };
