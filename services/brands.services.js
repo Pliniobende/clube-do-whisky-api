@@ -1,42 +1,51 @@
 const { Categories } = require("../models");
-const { Brands } = require("../models");
+const { Brands, Reviews } = require("../models");
+
 
 const brandsServices = {
   getAll: async (id) => {
     let status = null;
     let error = null;
     let data = {};
+  
     let brands = await Brands.findAll({
-      include: {
-        model: Categories[id],
-        as: "Categories",
-        required: true,
-      },
-    });
+      where: {categoriesId:id},
+      
+     /* include:{
+      model: Reviews,
+      as: 'reviews'
+      },*/
+ 
+    })
+    
 
     try {
-      if (brands) {
-        let { image, description } = brands;
-        data = {
-          image,
-          description,
-        };
+      if (brands && brands.length !=0) {
+        status = 200;
+        data=brands
+        
       } else {
         status = 404;
-        res.send("Nenhuma marca encontrada");
+        /*res.send("Nenhuma marca encontrada");*/
       }
     } catch (e) {
+    
       status = 500;
       error = e;
+      console.log(e)
     }
 
     return { data, status, error };
   },
+
+
+
+  
   getOne: async (id) => {
     let data = {};
     let status = null;
     let error = null;
-    let brand = Brands.findOne({
+    let brand = await Brands.findOne({
       where: { id },
     });
 

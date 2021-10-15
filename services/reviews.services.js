@@ -1,4 +1,4 @@
-const { Reviews } = require("../models");
+const { Reviews, Brands, sequelize } = require("../models");
 
 const reviewsServices = {
   ratingGet: async (id) => {
@@ -47,6 +47,61 @@ const reviewsServices = {
       res.status(500).json(error);
     }
   },
+
+  getAvg: async (req,res) => {
+    let status = null;
+    let error = null;
+    let data = {};
+    let review = await Reviews.findOne({
+      where: {brandid:2},
+      attributes: {
+        include:[
+          [sequelize.fn('AVG', sequelize.col('rating')), 'avgRating'],
+        ],
+          exclude: ['description','createdAt','updatedAt','userId','id','rating'],
+      }
+    });
+    try {
+      if (review && review.length !=0) {
+        status = 200;
+        /*let { rating, description, userId } = review;*/
+        data = review;
+      } else {
+        status = 404;
+        res.send("Nenhuma avaliação encontrada");
+      }
+    } catch (e) {
+      status = 500;
+      error = e;
+    }
+  
+    return { data, status, error };
+  },
+
+  
+    getAllRatings: async (id) => {
+      let status = null;
+      let error = null;
+      let data = {};
+      let review = await Reviews.findAll({
+  
+        where: { brandId: id }
+      });
+      try {
+        if (review && review.length !=0) {
+
+          data = review;
+        } else {
+          status = 404;
+          res.send("Nenhuma avaliação encontrada");
+        }
+      } catch (e) {
+        status = 500;
+        error = e;
+      }
+  
+      return { data, status, error };
+    },
 };
 
 module.exports = reviewsServices;

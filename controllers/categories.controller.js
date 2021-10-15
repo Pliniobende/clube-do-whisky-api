@@ -6,7 +6,7 @@ const categoriesController = {
     try {
       const { id } = req.params;
 
-      const { data, status, error } = await categoriesServices.get(id);
+      const { data, status, error } = await categoriesServices.getOne(id);
 
       error ? res.status(status).json(error) : res.status(status).json(data);
     } catch (e) {
@@ -19,7 +19,18 @@ const categoriesController = {
       const { id } = req.params;
 
       const { data, status, error } = await brandsServices.getAll(id);
+    
+      error ? res.status(status).json(error) : res.status(status).json(data);
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  },
 
+  allCategories: async (req, res) => {
+    try {
+
+      const { data, status, error } = await categoriesServices.getAll();
+    
       error ? res.status(status).json(error) : res.status(status).json(data);
     } catch (e) {
       res.status(500).json(e);
