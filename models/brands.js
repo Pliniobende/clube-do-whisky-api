@@ -6,11 +6,14 @@ module.exports = (sequelize, DataTypes) => {
       Brands.belongsTo(models.Categories, {
         foreignKey: "categoriesId",
         as: "brands",
+
         required: true,
       });
       Brands.hasMany(models.Reviews, {
         foreignKey: "brandId",
         as: "reviews",
+
+
         required: true,
       });
     }

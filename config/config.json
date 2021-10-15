@@ -1,9 +1,11 @@
 {
   "development": {
-    "username": "b4a88b85da271e",
-    "password": "21cbe80c",
-    "database": "heroku_0f8ce1e4da1e573",
-    "host": "us-cdbr-east-04.cleardb.com",
+
+
+    "username": "root",
+    "password": "",
+    "database": "wisky-club",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
