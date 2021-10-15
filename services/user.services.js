@@ -90,7 +90,7 @@ const userServices = {
             expiresIn: 3600,
           });
 
-          data = { auth: true, token };
+          data = { auth: true, token, name: user.name, email: user.email };
           status = 202;
         } else {
           status = 404;
