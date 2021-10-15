@@ -66,7 +66,6 @@ const reviewsServices = {
         status = 200;
         /*let { rating, description, userId } = review;*/
         data = review;
-         console.log(data)
       } else {
         status = 404;
         res.send("Nenhuma avaliação encontrada");

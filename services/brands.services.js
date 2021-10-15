@@ -1,19 +1,23 @@
 const { Categories } = require("../models");
 const { Brands, Reviews } = require("../models");
-const reviewsServices = require("./reviews.services");
+
 
 const brandsServices = {
   getAll: async (id) => {
     let status = null;
     let error = null;
     let data = {};
-    console.log(id)
+  
     let brands = await Brands.findAll({
-      where: {id},
-      include: Reviews,
-      require: true
+      where: {categoriesId:id},
+      
+     /* include:{
+      model: Reviews,
+      as: 'reviews'
+      },*/
+ 
     })
-
+    
 
     try {
       if (brands && brands.length !=0) {
@@ -30,7 +34,7 @@ const brandsServices = {
       error = e;
       console.log(e)
     }
-    
+
     return { data, status, error };
   },
 
