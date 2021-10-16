@@ -23,6 +23,17 @@ const reviewsController = {
         res.status(500).json(e);
       }
     },
+    rating: async (req, res) => {
+      try {
+
+         let {id}=req.params;
+        const { data, status, error } = await reviewsServices.ratingPost(id);
+    
+        error ? res.status(status).json(error) : res.status(status).json(data);
+      } catch (e) {
+        res.status(500).json(e);
+      }
+    },
 }
 
 module.exports = reviewsController
