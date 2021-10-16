@@ -41,6 +41,15 @@ const userController = {
       res.status(500).json(e);
     }
   },
+  logout: (req, res) => {
+    try {
+      const { data, status, error } = userServices.logout();
+
+      res.status(status).json(data);
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  },
 };
 
 module.exports = userController;

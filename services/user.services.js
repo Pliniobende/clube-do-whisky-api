@@ -106,6 +106,14 @@ const userServices = {
 
     return { data, status, error };
   },
+  logout: () => {
+    let status = null;
+    let error = null;
+    let data = {};
+    data = { auth: false, token: "", name: "", email: "" };
+    status = 200;
+    return { data, status, error };
+  },
 };
 
 module.exports = userServices;
