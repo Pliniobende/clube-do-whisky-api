@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const session = require("express-session");
+const path = require('path');
 const userRoutes = require('./routes/user.routes');
 const prospectsRoutes = require('./routes/prospects.routes');
 const brandsRoutes = require('./routes/brands.routes');
@@ -19,6 +20,7 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
+app.use('/images', express.static(path.resolve(__dirname, "public","images")))
 
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/prospects", prospectsRoutes);
