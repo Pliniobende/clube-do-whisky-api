@@ -83,12 +83,13 @@ const reviewsServices = {
       let error = null;
       let data = {};
       let review = await Reviews.findAll({
-  
-        where: { brandId: id }
+       where: {brandId:id}
       });
+      
       try {
         if (review && review.length !=0) {
 
+          status = 200;
           data = review;
         } else {
           status = 404;
@@ -98,7 +99,6 @@ const reviewsServices = {
         status = 500;
         error = e;
       }
-  
       return { data, status, error };
     },
 };
