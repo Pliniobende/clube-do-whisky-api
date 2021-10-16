@@ -7,7 +7,7 @@ const reviewsServices = {
     let data = {};
     let review = await Reviews.findAll({
       include: {
-        model: Brands[id],
+        model: Brands,
         as: "Brands",
         required: true,
       },
@@ -52,14 +52,13 @@ const reviewsServices = {
     let status = null;
     let error = null;
     let data = {};
-    let review = await Reviews.findOne({
-      where: {brandid:2},
+    let review = await Reviews.findAll({
       attributes: {
         include:[
           [sequelize.fn('AVG', sequelize.col('rating')), 'avgRating'],
         ],
-          exclude: ['description','createdAt','updatedAt','userId','id','rating'],
-      }
+      },
+      group: ['brandId']
     });
     try {
       if (review && review.length !=0) {
@@ -79,7 +78,7 @@ const reviewsServices = {
   },
 
   
-    getAllRatings: async (id) => {
+  getAllRatings: async (id) => {
       let status = null;
       let error = null;
       let data = {};
