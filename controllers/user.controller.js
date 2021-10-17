@@ -21,7 +21,7 @@ const userController = {
 
       error ? res.status(status).json(error) : res.status(status).json(data);
     } catch (e) {
-      res.status(500).json(e);
+      res.status(500).json(`Error => ${e}`);
     }
   },
   put: (req, res) => res.status(401).json("Unauthorized route"),

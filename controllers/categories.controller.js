@@ -2,6 +2,16 @@ const categoriesServices = require("../services/categories.services");
 const brandsServices = require("../services/brands.services");
 
 const categoriesController = {
+  categorias: async (req, res) => {
+    try {
+      const { data, status, error } = await categoriesServices.getAll();
+
+      error ? res.status(status).json(error) : res.status(status).json(data);
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  },
+
   categoria: async (req, res) => {
     try {
       const { id } = req.params;

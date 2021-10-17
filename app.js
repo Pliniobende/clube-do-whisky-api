@@ -4,16 +4,10 @@ const cors = require("cors");
 const session = require("express-session");
 require("dotenv").config();
 
-<<<<<<< HEAD
-const userRoutes = require('./routes/user.routes');
-const prospectsRoutes = require('./routes/prospects.routes');
-const categoriesRoutes = require('./routes/categories.routes');
-=======
 const userRoutes = require("./routes/user.routes");
 const prospectsRoutes = require("./routes/prospects.routes");
 const brandsRoutes = require("./routes/brands.routes");
 const categoriesRoutes = require("./routes/categories.routes");
->>>>>>> origin
 
 app.use(
   session({
