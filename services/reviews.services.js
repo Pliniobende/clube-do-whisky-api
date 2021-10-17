@@ -33,13 +33,16 @@ const reviewsServices = {
     return { data, status, error };
   },
 
-  ratingPost: async (datas, res) => {
-    let { rating, description } = datas;
+  ratingPost: async (body) => {
+    let { rating, description } = body;
+    console.log(body)
 
     try {
       await Reviews.create({
         rating,
         description,
+        userId,
+        brandId
       });
 
       res.status(201).json("Avaliação enviada com sucesso!");

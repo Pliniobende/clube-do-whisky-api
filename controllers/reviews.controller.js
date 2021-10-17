@@ -26,8 +26,8 @@ const reviewsController = {
     rating: async (req, res) => {
       try {
 
-         let {id}=req.params;
-        const { data, status, error } = await reviewsServices.ratingPost(id);
+         let {body}=req.body;
+        const { data, status, error } = await reviewsServices.ratingPost(body);
     
         error ? res.status(status).json(error) : res.status(status).json(data);
       } catch (e) {

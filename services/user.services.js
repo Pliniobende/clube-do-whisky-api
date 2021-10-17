@@ -90,7 +90,7 @@ const userServices = {
             expiresIn: 3600,
           });
 
-          data = { auth: true, token, name: user.name, email: user.email };
+          data = { auth: true, token, name: user.name, email: user.email, id:user.id };
           status = 202;
         } else {
           status = 404;
@@ -103,7 +103,7 @@ const userServices = {
       status = 500;
       error = e;
     }
-
+    console.log(data)
     return { data, status, error };
   },
 };
