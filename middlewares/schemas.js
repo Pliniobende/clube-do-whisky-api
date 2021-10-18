@@ -20,10 +20,13 @@ const loginSchema = Joi.object().keys({
   password: Joi.string().min(4).required(),
 });
 
-
+const restoreSchema = Joi.object().keys({
+  email: Joi.string().email().required(),
+});
 
 module.exports = {
   usersSchema,
   prospectsSchema,
   loginSchema,
+  restoreSchema,
 };

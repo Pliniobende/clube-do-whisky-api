@@ -50,6 +50,17 @@ const userController = {
       res.status(500).json(e);
     }
   },
+  recoverPassword: async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      const { data, status, error } = await userServices.recoverPassword(email);
+
+      error ? res.status(500).json(e) : res.status(status).json(data);
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  },
 };
 
 module.exports = userController;

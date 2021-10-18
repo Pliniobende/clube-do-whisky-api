@@ -2,6 +2,7 @@ const { Users } = require("../models");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const { secret } = require("../middlewares/config");
+const emailService = require("./email.service");
 
 const userServices = {
   get: async (id) => {
@@ -36,7 +37,7 @@ const userServices = {
     let data = {};
     let { name, email, password, mobile, newsLetter } = datas;
 
-    let senha = bcrypt.hashSync(password, 10);
+    const senha = bcrypt.hashSync(password, 10);
 
     let checkEmail = await Users.findOne({ where: { email } });
 
@@ -66,6 +67,34 @@ const userServices = {
         status = 500;
         error = e;
       }
+    }
+
+    return { data, status, error };
+  },
+  put: async (email, password) => {
+    let status = null;
+    let error = null;
+    let data = {};
+
+    try {
+      const user = await Users.findOne({ where: { email } });
+
+      if (user) {
+        const response = await Users.update(
+          {
+            password: bcrypt.hashSync(password, 10),
+          },
+          { where: { email } }
+        );
+
+        console.log(response);
+        status = 200;
+      } else {
+        status = 404;
+      }
+    } catch (e) {
+      status = 500;
+      error = e;
     }
 
     return { data, status, error };
@@ -119,6 +148,37 @@ const userServices = {
 
     status = 200;
     data = { auth: false, token: "", name: "", email: "", id: "" };
+
+    return { data, status, error };
+  },
+  recoverPassword: async (email) => {
+    let status = null;
+    let error = null;
+    let data = {};
+
+    const password = "@dmin123";
+    const senha = bcrypt.hashSync(password, 10);
+
+    try {
+      const user = await Users.findOne({ where: { email } });
+
+      if (user) {
+        console.log("senha => ", senha);
+        await Users.update(
+          {
+            password: senha,
+          },
+          { where: { id: user.id } }
+        );
+
+        const sendEmail = await emailService.sendEmail(email, password);
+
+        status = 200;
+      }
+    } catch (e) {
+      status = 500;
+      error = e;
+    }
 
     return { data, status, error };
   },
