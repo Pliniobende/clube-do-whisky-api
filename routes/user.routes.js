@@ -6,6 +6,7 @@ const { usersSchema, loginSchema } = require("../middlewares/schemas");
 const middleware = require("../middlewares/validationSchema");
 
 router.post("/login", middleware(loginSchema), userController.login);
+router.post("/logout", userController.logout);
 router.post("/", middleware(usersSchema), userController.post);
 
 router.use(auth);
