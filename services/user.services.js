@@ -35,7 +35,7 @@ const userServices = {
     let status = null;
     let error = null;
     let data = {};
-    let { name, email, password, mobile, newsLetter } = datas;
+    const { name, email, password, mobile, newsLetter } = datas;
 
     const senha = bcrypt.hashSync(password, 10);
 
@@ -71,26 +71,47 @@ const userServices = {
 
     return { data, status, error };
   },
-  put: async (email, password) => {
+  put: async (datas) => {
     let status = null;
     let error = null;
     let data = {};
+    const { id, name, email, password, mobile, newsLetter } = datas;
+    const senha = bcrypt.hashSync(password, 10);
 
     try {
-      const user = await Users.findOne({ where: { email } });
+      const checkEmail = await Users.findOne({ where: { id } });
 
-      if (user) {
-        const response = await Users.update(
-          {
-            password: bcrypt.hashSync(password, 10),
-          },
-          { where: { email } }
-        );
+      if (checkEmail) {
+        const duplicateEmail = await Users.findOne({ where: { email } });
 
-        console.log(response);
-        status = 200;
+        if (duplicateEmail && duplicateEmail.email !== email) {
+          status = 400;
+          error = "Usuário/E-mail já cadastrado";
+        } else {
+          await Users.update(
+            {
+              name,
+              email,
+              password: senha,
+              mobile,
+              newsLetter,
+            },
+            { where: { id } }
+          );
+
+          var token = jwt.sign({ id }, secret, { expiresIn: 3600 });
+
+          data = {
+            auth: true,
+            token,
+            name,
+            email,
+          };
+          status = 200;
+        }
       } else {
-        status = 404;
+        status = 400;
+        error = "Usuário não encontrado";
       }
     } catch (e) {
       status = 500;
@@ -138,7 +159,7 @@ const userServices = {
       status = 500;
       error = e;
     }
-    console.log(data);
+
     return { data, status, error };
   },
   logout: async () => {
@@ -163,7 +184,6 @@ const userServices = {
       const user = await Users.findOne({ where: { email } });
 
       if (user) {
-        console.log("senha => ", senha);
         await Users.update(
           {
             password: senha,

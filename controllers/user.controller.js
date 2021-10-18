@@ -24,7 +24,17 @@ const userController = {
       res.status(500).json(e);
     }
   },
-  put: (req, res) => res.status(401).json("Unauthorized route"),
+  put: async (req, res) => {
+    try {
+      let datas = req.body;
+
+      const { data, status, error } = await userServices.put(datas);
+
+      error ? res.status(status).json(error) : res.status(status).json(data);
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  },
   delete: (req, res) => res.status(401).json("Unauthorized route"),
   login: async (req, res) => {
     try {
